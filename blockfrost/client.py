@@ -43,8 +43,8 @@ class Client:
 
         return headers
 
-    def _request(self, method, uri):
-        self.response = getattr(self.session, method)(uri)
+    def _request(self, method, uri, **kwargs):
+        self.response = getattr(self.session, method)(uri, **kwargs)
         return self._handle_response(self.response)
 
     @staticmethod
@@ -57,12 +57,12 @@ class Client:
         except ValueError:
             raise ValueError
 
-    def _get(self, path):
-        return self._request_api('get', path)
+    def _get(self, path, **kwargs):
+        return self._request_api('get', path, **kwargs)
 
-    def _request_api(self, method, path):
+    def _request_api(self, method, path, **kwargs):
         uri = self._create_uri(path)
-        return self._request(method, uri)
+        return self._request(method, uri, **kwargs)
 
     def _create_uri(self, path):
         url = self.api_url_mainnet
@@ -98,3 +98,12 @@ class Client:
         """
         path = 'addresses/' + address + '/total'
         return self._get(path)
+
+    def get_address_utxos(self, address, **kwargs):
+        """
+        :param address: required
+        :type address: str
+        :return: Blockfrost API response
+        """
+        path = 'addresses/' + address + '/utxos'
+        return self._get(path, params=kwargs)
