@@ -44,9 +44,7 @@ class Client:
         return headers
 
     def _request(self, method, uri):
-
         self.response = getattr(self.session, method)(uri)
-
         return self._handle_response(self.response)
 
     @staticmethod
@@ -59,33 +57,44 @@ class Client:
         except ValueError:
             raise ValueError
 
-    def _get(self, path, **kwargs):
-        return self._request_api('get', path, **kwargs)
+    def _get(self, path):
+        return self._request_api('get', path)
 
-    def _request_api(self, method, path, **kwargs):
-
-        uri = self._create_uri(path, **kwargs)
+    def _request_api(self, method, path):
+        uri = self._create_uri(path)
         return self._request(method, uri)
 
-    def _create_uri(self, path, **kwargs):
+    def _create_uri(self, path):
         url = self.api_url_mainnet
         if self.testnet:
             url = self.api_url_testnet
         v = self.api_version
-        payload = self._get_payload_from_kwargs(**kwargs)
-        return url + '/' + v + '/' + path + '/' + payload
+        return url + '/' + v + '/' + path
 
-    def _get_payload_from_kwargs(self, **kwargs):
+    @staticmethod
+    def _get_payload_from_params(params):
         payload = ''
-        for item in kwargs['data'].items():
-            payload = item[1]
+        for item in params.items():
+            if item[0] != 'details':
+                payload = item[1]
+        if params['details']:
+            payload = payload + '/' + params['details']
         return payload
 
-    def get_address(self, **params):
+    def get_address(self, address):
         """
-
         :param address: required
         :type address: str
-        :return:
+        :return: Blockfrost API response
         """
-        return self._get('addresses', data=params)
+        path = 'addresses/' + address
+        return self._get(path)
+
+    def get_address_details(self, address):
+        """
+        :param address: required
+        :type address: str
+        :return: Blockfrost API response
+        """
+        path = 'addresses/' + address + '/total'
+        return self._get(path)
