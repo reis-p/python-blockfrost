@@ -81,8 +81,13 @@ class Client:
             payload = payload + '/' + params['details']
         return payload
 
+    # User Side
+
     def get_address(self, address):
         """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}/get
+
         :param address: required
         :type address: str
         :return: Blockfrost API response
@@ -92,6 +97,9 @@ class Client:
 
     def get_address_details(self, address):
         """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1total/get
+
         :param address: required
         :type address: str
         :return: Blockfrost API response
@@ -101,9 +109,56 @@ class Client:
 
     def get_address_utxos(self, address, **kwargs):
         """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1utxos/get
+
         :param address: required
         :type address: str
         :return: Blockfrost API response
         """
         path = 'addresses/' + address + '/utxos'
         return self._get(path, params=kwargs)
+
+    def get_address_transactions(self, address, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1transactions/get
+
+        :param address: required
+        :type address: str
+        :return: Blockfrost API response
+        """
+        path = 'addresses/' + address + '/transactions'
+        return self._get(path, params=kwargs)
+
+    def get_latest_block(self):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Blocks
+
+        :return: Blockfrost API response
+        """
+        path = 'blocks/latest'
+        return self._get(path)
+
+    def get_latest_block_txs(self, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Blocks
+
+        :return: Blockfrost API response
+        """
+        path = 'blocks/latest/txs'
+        return self._get(path, params=kwargs)
+
+    def get_specific_block(self, hash_or_number):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}/get
+
+        :param hash_or_number: Block hash or number
+        :type hash_or_number: str
+        :return: Blockfrost API response
+        """
+        path = 'blocks/' + hash_or_number
+        return self._get(path)
