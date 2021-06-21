@@ -160,7 +160,7 @@ class Client:
         :type hash_or_number: str
         :return: Blockfrost API response
         """
-        path = 'blocks/' + hash_or_number
+        path = 'blocks/' + str(hash_or_number)
         return self._get(path, params=kwargs)
 
     def get_specific_block_in_slot(self, slot_number, **kwargs):
@@ -254,7 +254,7 @@ class Client:
         :type epoch_number: int
         :return: Blockfrost API response
         """
-        path = '/epochs/parameters' + str(epoch_number)
+        path = '/epochs/' + str(epoch_number)
         return self._get(path, params=kwargs)
 
     def get_next_epochs(self, epoch_number, **kwargs):
@@ -343,4 +343,48 @@ class Client:
         :return: Blockfrost API response
         """
         path = '/epochs/' + str(epoch_number) + '/parameters'
+        return self._get(path, params=kwargs)
+
+    def get_blockchain_genesis(self, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Ledger/paths/~1genesis/get
+
+        :return: Blockfrost API response
+        """
+        path = '/genesis'
+        return self._get(path, params=kwargs)
+
+    def get_transaction_metadata_labels(self, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Metadata
+
+        :return: Blockfrost API response
+        """
+        path = '/metadata/txs/labels'
+        return self._get(path, params=kwargs)
+
+    def get_transaction_metadata_json(self, label, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Metadata/paths/~1metadata~1txs~1labels~1{label}/get
+
+        :param label: Metadata label
+        :type label: str
+        :return: Blockfrost API response
+        """
+        path = '/metadata/txs/labels/' + label
+        return self._get(path, params=kwargs)
+
+    def get_transaction_metadata_cbor(self, label, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Metadata/paths/~1metadata~1txs~1labels~1{label}/get
+
+        :param label: Metadata label
+        :type label: str
+        :return: Blockfrost API response
+        """
+        path = '/metadata/txs/labels/' + label + '/cbor'
         return self._get(path, params=kwargs)
