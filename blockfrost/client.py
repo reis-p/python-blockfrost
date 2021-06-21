@@ -162,3 +162,65 @@ class Client:
         """
         path = 'blocks/' + hash_or_number
         return self._get(path)
+
+    def get_specific_block_in_slot(self, slot_number):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1slot~1{slot_number}/get
+
+        :param slot_number: slot number
+        :type slot_number: int
+        :return: Blockfrost API response
+        """
+        path = '/blocks/slot/' + str(slot_number)
+        return self._get(path)
+
+    def get_specific_block_in_epoch_slot(self, epoch_number, slot_number_epoch):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1epoch~1{epoch_number}~1slot~1{slot_number}/get
+
+        :param epoch_number: epoch number
+        :type epoch_number: int
+        :param slot_number_epoch: slot number
+        :type slot_number_epoch: int
+        :return: Blockfrost API response
+        """
+        path = '/blocks/epoch/' + str(epoch_number) + '/slot/' + str(slot_number_epoch)
+        return self._get(path)
+
+    def get_next_blocks(self, hash_or_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1next/get
+
+        :param hash_or_number:
+        :type hash_or_number: str
+        :return: Blockfrost API response
+        """
+        path = '/blocks/' + hash_or_number + '/next'
+        return self._get(path, params=kwargs)
+
+    def get_previous_blocks(self, hash_or_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1previous/get
+
+        :param hash_or_number: Block hash or number
+        :type hash_or_number: str
+        :return: Blockfrost API response
+        """
+        path = '/blocks/' + hash_or_number + '/previous'
+        return self._get(path, params=kwargs)
+
+    def get_block_txs(self, hash_or_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}~1txs/get
+
+        :param hash_or_number: Block hash or number
+        :type hash_or_number: str
+        :return: Blockfrost API response
+        """
+        path = '/blocks/' + hash_or_number + '/txs'
+        return self._get(path, params=kwargs)
