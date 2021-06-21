@@ -83,7 +83,7 @@ class Client:
 
     # User Side
 
-    def get_address(self, address):
+    def get_address(self, address, **kwargs):
         """
         see:
         https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}/get
@@ -93,9 +93,9 @@ class Client:
         :return: Blockfrost API response
         """
         path = 'addresses/' + address
-        return self._get(path)
+        return self._get(path, params=kwargs)
 
-    def get_address_details(self, address):
+    def get_address_details(self, address, **kwargs):
         """
         see:
         https://docs.blockfrost.io/#tag/Cardano-Addresses/paths/~1addresses~1{address}~1total/get
@@ -105,7 +105,7 @@ class Client:
         :return: Blockfrost API response
         """
         path = 'addresses/' + address + '/total'
-        return self._get(path)
+        return self._get(path, params=kwargs)
 
     def get_address_utxos(self, address, **kwargs):
         """
@@ -131,7 +131,7 @@ class Client:
         path = 'addresses/' + address + '/transactions'
         return self._get(path, params=kwargs)
 
-    def get_latest_block(self):
+    def get_latest_block(self, **kwargs):
         """
         see:
         https://docs.blockfrost.io/#tag/Cardano-Blocks
@@ -139,7 +139,7 @@ class Client:
         :return: Blockfrost API response
         """
         path = 'blocks/latest'
-        return self._get(path)
+        return self._get(path, params=kwargs)
 
     def get_latest_block_txs(self, **kwargs):
         """
@@ -151,7 +151,7 @@ class Client:
         path = 'blocks/latest/txs'
         return self._get(path, params=kwargs)
 
-    def get_specific_block(self, hash_or_number):
+    def get_specific_block(self, hash_or_number, **kwargs):
         """
         see:
         https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1{hash_or_number}/get
@@ -161,9 +161,9 @@ class Client:
         :return: Blockfrost API response
         """
         path = 'blocks/' + hash_or_number
-        return self._get(path)
+        return self._get(path, params=kwargs)
 
-    def get_specific_block_in_slot(self, slot_number):
+    def get_specific_block_in_slot(self, slot_number, **kwargs):
         """
         see:
         https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1slot~1{slot_number}/get
@@ -173,9 +173,9 @@ class Client:
         :return: Blockfrost API response
         """
         path = '/blocks/slot/' + str(slot_number)
-        return self._get(path)
+        return self._get(path, params=kwargs)
 
-    def get_specific_block_in_epoch_slot(self, epoch_number, slot_number_epoch):
+    def get_specific_block_in_epoch_slot(self, epoch_number, slot_number_epoch, **kwargs):
         """
         see:
         https://docs.blockfrost.io/#tag/Cardano-Blocks/paths/~1blocks~1epoch~1{epoch_number}~1slot~1{slot_number}/get
@@ -187,7 +187,7 @@ class Client:
         :return: Blockfrost API response
         """
         path = '/blocks/epoch/' + str(epoch_number) + '/slot/' + str(slot_number_epoch)
-        return self._get(path)
+        return self._get(path, params=kwargs)
 
     def get_next_blocks(self, hash_or_number, **kwargs):
         """
@@ -223,4 +223,124 @@ class Client:
         :return: Blockfrost API response
         """
         path = '/blocks/' + hash_or_number + '/txs'
+        return self._get(path, params=kwargs)
+
+    def get_latest_epoch(self, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs
+
+        :return: Blockfrost API response
+        """
+        path = '/epochs/latest'
+        return self._get(path, params=kwargs)
+
+    def get_latest_epoch_protocol_params(self, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1latest~1parameters/get
+
+        :return: Blockfrost API response
+        """
+        path = '/epochs/latest/parameters'
+        return self._get(path, params=kwargs)
+
+    def get_specific_epoch(self, epoch_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}/get
+
+        :param epoch_number: epoch number
+        :type epoch_number: int
+        :return: Blockfrost API response
+        """
+        path = '/epochs/parameters' + str(epoch_number)
+        return self._get(path, params=kwargs)
+
+    def get_next_epochs(self, epoch_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1next/get
+
+        :param epoch_number: starting epoch number
+        :type epoch_number: int
+        :return: Blockfrost API response
+        """
+        path = '/epochs/' + str(epoch_number) + '/next'
+        return self._get(path, params=kwargs)
+
+    def get_previous_epochs(self, epoch_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1previous/get
+
+        :param epoch_number: starting epoch number
+        :type epoch_number: int
+        :return: Blockfrost API response
+        """
+        path = '/epochs/' + str(epoch_number) + '/previous'
+        return self._get(path, params=kwargs)
+
+    def get_active_stake_distribution(self, epoch_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1stakes/get
+
+        :param epoch_number: Epoch number for stake distribution
+
+        :return: Blockfrost API response
+        """
+        path = '/epochs/' + str(epoch_number) + '/stakes'
+        return self._get(path, params=kwargs)
+
+    def get_stake_distribution_by_pool(self, epoch_number, pool_id, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1stakes~1{pool_id}/get
+
+        :param epoch_number: Epoch number for stake distribution
+        :type epoch_number: int
+        :param pool_id: pool id BECH32
+        :type pool_id; str
+        :return: Blockfrost API response
+        """
+        path = '/epochs/' + str(epoch_number) + '/stakes/' + pool_id
+        return self._get(path, params=kwargs)
+
+    def get_block_distribution(self, epoch_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1blocks/get
+
+        :param epoch_number: Epoch number for block distribution
+        :type epoch_number: int
+        :return: Blockfrost API response
+        """
+        path = '/epochs/' + str(epoch_number) + '/blocks'
+        return self._get(path, params=kwargs)
+
+    def get_block_distribution_by_pool(self, epoch_number, pool_id, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1blocks~1{pool_id}/get
+
+        :param epoch_number: Epoch number for block distribution
+        :type epoch_number: int
+        :param pool_id: pool id BECH32
+        :type pool_id; str
+        :return: Blockfrost API response
+        """
+        path = '/epochs/' + str(epoch_number) + '/blocks/' + pool_id
+        return self._get(path, params=kwargs)
+
+    def get_protocol_params_for_epoch(self, epoch_number, **kwargs):
+        """
+        see:
+        https://docs.blockfrost.io/#tag/Cardano-Epochs/paths/~1epochs~1{number}~1blocks/get
+
+        :param epoch_number: Epoch number for block distribution
+        :type epoch_number: int
+        :return: Blockfrost API response
+        """
+        path = '/epochs/' + str(epoch_number) + '/parameters'
         return self._get(path, params=kwargs)
