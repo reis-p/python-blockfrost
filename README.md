@@ -4,4 +4,4 @@ This is an unofficial python wrapper for the blockfrost.io API. I am not affilia
 
 Maintained and contributed by:
 
-Aerospace Stake Pool**[AERO]**
+Aerospace Stake Pool **[AERO]**
